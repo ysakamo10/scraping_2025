@@ -4,7 +4,7 @@ from duckduckgo_search import DDGS
 
 
 def find_url(school_name: str) -> str:
-    """学校名からDuckDuckGo検索で公式URLを1件取得する。"""
+    """組織名からDuckDuckGo検索で公式URLを1件取得する。"""
     if not school_name.strip():
         return ""
     query = f"{school_name} 公式サイト"

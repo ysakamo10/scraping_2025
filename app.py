@@ -1,6 +1,6 @@
 """
-学校連絡先スクレイパー
-====================
+連絡先スクレイパー
+==================
 CSVをアップロードするだけで電話番号・FAX・メール・住所を自動取得します。
 """
 import io
@@ -18,12 +18,12 @@ from scraping.url_finder import find_url
 
 # ── ページ設定 ────────────────────────────────────────────────
 st.set_page_config(
-    page_title="学校連絡先スクレイパー",
-    page_icon="🏫",
+    page_title="連絡先スクレイパー",
+    page_icon="📋",
     layout="centered",
 )
 
-st.title("🏫 学校連絡先スクレイパー")
+st.title("📋 連絡先スクレイパー")
 st.caption("CSVをアップロードするだけで、電話番号・FAX・メールアドレス・住所を自動で取得します。")
 st.divider()
 
@@ -40,7 +40,7 @@ uploaded = st.file_uploader(
     label="ファイルを選ぶ",
     type=["csv"],
     label_visibility="collapsed",
-    help="学校名が入ったCSVファイルを選んでください（Excel で「CSV UTF-8」形式で保存したものが最適です）",
+    help="組織名が入ったCSVファイルを選んでください（Excel で「CSV UTF-8」形式で保存したものが最適です）",
 )
 
 if uploaded is None:
@@ -76,9 +76,9 @@ st.subheader("② 設定")
 columns = df_input.columns.tolist()
 
 school_col = st.selectbox(
-    "学校名が入っている列",
+    "組織名が入っている列",
     options=columns,
-    help="学校名の列を選んでください",
+    help="学校名・企業名など、組織名の列を選んでください",
 )
 
 url_col_options = ["（Googleで自動検索する）"] + columns
@@ -141,7 +141,7 @@ if st.button("🚀 処理開始", type="primary", use_container_width=True):
         df["URL"] = df[url_col].fillna("").astype(str)
 
     # ── Step B: スクレイピング＆連絡先抽出 ───────────────────
-    add_log("\n🔍 各学校サイトから連絡先を取得中...")
+    add_log("\n🔍 各サイトから連絡先を取得中...")
     contacts: list[dict] = []
     _headers = {
         "User-Agent": (
@@ -174,7 +174,7 @@ if st.button("🚀 処理開始", type="primary", use_container_width=True):
                 soup = BeautifulSoup(html, "lxml")
                 for a_tag in soup.find_all("a", href=True):
                     link_text = a_tag.get_text(strip=True)
-                    if re.search(r"アクセス|所在地|交通|学校案内|概要|施設", link_text):
+                    if re.search(r"アクセス|所在地|交通|概要|会社概要|企業情報|会社情報|お問い合わせ|連絡先|拠点", link_text):
                         sub_url = urllib.parse.urljoin(url, a_tag["href"])
                         try:
                             sub_resp = requests.get(sub_url, timeout=8, headers=_headers)
