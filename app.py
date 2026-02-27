@@ -119,12 +119,11 @@ if st.button("🚀 処理開始", type="primary", use_container_width=True):
 
     url_steps = 0 if has_url else n
     total_steps = url_steps + n + (n if include_subpage else 0)
-    step = 0
+    step = [0]  # リストにすることでネスト関数から更新可能にする
 
     def advance(label: str) -> None:
-        nonlocal step
-        step += 1
-        pct = min(step / total_steps, 0.99)
+        step[0] += 1
+        pct = min(step[0] / total_steps, 0.99)
         progress.progress(pct, text=label)
 
     # ── Step A: URL取得 ───────────────────────────────────────
