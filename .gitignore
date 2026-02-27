@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 仮想環境
+.venv/
+venv/
+env/
+
+# データファイル（個人情報のためGitHubには上げない）
+*.csv
+data/
+html/
+html_*/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Streamlit のシークレット（APIキー等）
+.streamlit/secrets.toml
+
+# 旧スクリプト群（デプロイ不要）
+src/
