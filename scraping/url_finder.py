@@ -15,4 +15,4 @@ def find_url(school_name: str) -> str:
     except Exception:
         return ""
     finally:
-        time.sleep(1)
+        time.sleep(3)
